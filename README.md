@@ -21,7 +21,7 @@ train_regressor.m trains the weights w using linear regression and l2 regulariza
 brtrade.m performs the final evaluation
 vecsim.m calculates similarity between two vectors
 
-What Next?
+What Next? 
 The code in its current state does not seem to be effective at its function. It is possible to further tweak several constants 
 but I am currently at a loss as to how the paper acheived a Sharpe ratio of 4. I will be following up on this with some more 
 math-oriented friends, because I think I implemented what was described. 
@@ -29,3 +29,5 @@ math-oriented friends, because I think I implemented what was described.
 Attribution
 The train_regressor code was written by MIT 6.S03 staff, and the scraping of historical prices was done by Shaurya Saluja. 
 All other code was written by me (Anvita Pandit).
+
+The csv files are available at https://bitbucket.org/anvitapandit/btcpredictor (too large for github)
