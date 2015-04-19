@@ -45,9 +45,9 @@ clusters = 20;
 %TODO for speed, use similarity instead of L2 norm for kmeans?
 
 for i = 1:clusters
-kmeans180s(i,1:180) = (kmeans180s(i,1:180) - mean(kmeans180s(i,1:180)))./std(kmeans180s(i,1:180));
-kmeans360s(i,1:360) = (kmeans360s(i,1:360) - mean(kmeans360s(i,1:360)))./std(kmeans360s(i,1:360));
-kmeans720s(i,1:720) = (kmeans720s(i,1:720) - mean(kmeans720s(i,1:720)))./std(kmeans720s(i,1:720));
+    kmeans180s(i,1:180) = zscore(kmeans180s(i,1:180));
+    kmeans360s(i,1:360) = zscore(kmeans360s(i,1:360));
+    kmeans720s(i,1:720) = zscore(kmeans720s(i,1:720));
 end
 
 disp('finished clustering and normalizing');
