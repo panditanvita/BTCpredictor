@@ -28,9 +28,9 @@ function [bank,error] = brtrade(prices, kmeans180s,kmeans360s,kmeans720s,theta,t
         price720 = prices(t-719:t);
 
 %#average price change dp_j is given by bayesian regression    
-        dp1 = bayesian(price180,kmeans180s,kmeans360s,kmeans720s);
-        dp2 = bayesian(price360,kmeans180s,kmeans360s,kmeans720s);
-        dp3 = bayesian(price720,kmeans180s,kmeans360s,kmeans720s);
+        dp1 = bayesian(price180,kmeans180s);
+        dp2 = bayesian(price360,kmeans360s);
+        dp3 = bayesian(price720,kmeans720s);
 
         r = (bidVolume(t)-askVolume(t))/(bidVolume(t)+askVolume(t));
         

@@ -8,20 +8,9 @@
 %#y_i is the price change for the kmeans pattern
 %#c is a constant chosen for best fit
 %#defined in the paper
-function dpj = bayesian(x, kmeans180s,kmeans360s,kmeans720s)
-    %#based on the length of x, we choose S_j
+function dpj = bayesian(x, S)
     dpj = 1;
-    S = [];
     c = -1; %#TODO choose a better c, should it be negative or not??
-    switch length(x) 
-    case 180
-        S = kmeans180s;
-    case 360
-        S = kmeans360s;
-    case 720
-        S = kmeans720s;
-    otherwise
-    end
     %#compare x with the it in S using our similarity measure
     %#and return the conditional expectation, which is dp
     num = 0.0;
@@ -38,4 +27,3 @@ function dpj = bayesian(x, kmeans180s,kmeans360s,kmeans720s)
     end
     
     end
-    
