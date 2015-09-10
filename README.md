@@ -25,11 +25,11 @@ the error of the current implementation.
 The code in its current state does not seem to be effective at its function. After speaking to one of the authors of the paper, I think I implemented what was described. The main item left would be to selectively choose 20 effective patterns from the 100 k-means clustered patterns - the current implementation goes straight to clustering 20 patterns.  It is possible to further tweak several constants, but I am still left at a loss as to how the paper acheived a Sharpe ratio of 4. 
 
 ##Edit Sep 10, 2015
-**Some things which I should have written up much earlier (sorry!). 
+**Some things which I should have written up much earlier (sorry!).**
 
-A potential reason why the current implementation is ineffective:
+**A potential reason why the current implementation is ineffective:**
 
-The current patterns chosen by the algorithm using clustering look like flat lines when graphed. For example, a set of 20 price vectors at 5-s intervals will have 20 vectors with similar mean values, which do not diverge much from this mea value over the entire time interval. This makes sense because this averaging would give the lowest error margins between the k-means vector patterns and the set of all vector patterns, so the algorithm would choose for it. **
+**The current patterns chosen by the algorithm using clustering look like flat lines when graphed. For example, a set of 20 price vectors at 5-s intervals will have 20 vectors with similar mean values, which do not diverge much from this mea value over the entire time interval. This makes sense because this averaging would give the lowest error margins between the k-means vector patterns and the set of all vector patterns, so the algorithm would choose for it. **
 
 **As explained in the paper, the authors hand-selected 20 patterns and observed that their 'best' patterns were similar to those seen in trading textbooks i.e. the head and shoulders, the triangle. A flat line is not a good predictor of price changes.** 
 
