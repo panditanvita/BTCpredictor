@@ -26,12 +26,14 @@ The code in its current state does not seem to be effective at its function. Aft
 
 ##Edit Sep 10, 2015
 **Some things which I should have written up much earlier (sorry!). 
+
 A potential reason why the current implementation is ineffective:
-The current patterns chosen by the algorithm using clustering look like flat lines when graphed. For example, a set of 20 price vectors at 5-s intervals will have 20 vectors with similar mean values, which do not diverge much from this mea value over the entire time interval. This makes sense because this averaging would give the lowest error margins between the k-means vector patterns and the set of all vector patterns, so the algorithm would choose for it. But a flat line is not a good predictor of price changes.**
 
-As explained in the paper, the authors hand-selected 20 patterns and observed that their 'best' patterns were similar to those seen in trading textbooks i.e. the head and shoulders, the triangle. 
+The current patterns chosen by the algorithm using clustering look like flat lines when graphed. For example, a set of 20 price vectors at 5-s intervals will have 20 vectors with similar mean values, which do not diverge much from this mea value over the entire time interval. This makes sense because this averaging would give the lowest error margins between the k-means vector patterns and the set of all vector patterns, so the algorithm would choose for it. **
 
-Another important point is that the algorithm described in the paper has not been implemented in real time yet - the current version created by the authors, which reaches the purported Sharpe ratio, is not fast enough to use in the market. I believe the authors of the paper are currently working on this, and I've heard from a dozen other github users that they are as well. good luck! I personally have not put more work into this - the code given was my last attempt - but I'd be happy to answer any questions.**
+**As explained in the paper, the authors hand-selected 20 patterns and observed that their 'best' patterns were similar to those seen in trading textbooks i.e. the head and shoulders, the triangle. A flat line is not a good predictor of price changes.** 
+
+**Another important point is that the algorithm described in the paper has not been implemented in real time yet - the current version created by the authors, which reaches the purported Sharpe ratio, is not fast enough to use in the market. I believe the authors of the paper are currently working on this, and I've heard from a dozen other github users that they are as well. good luck! I personally have not put more work into this - the code given was my last attempt - but I'd be happy to answer any questions.**
 
 ##Attribution
 The train_regressor code was written by MIT 6.S03 staff, and the scraping of historical prices was done by Shaurya Saluja. 
