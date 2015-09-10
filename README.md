@@ -29,7 +29,7 @@ The code in its current state does not seem to be effective at its function. Aft
 
 **A potential reason why the current implementation is ineffective:**
 
-**The current patterns chosen by the algorithm using clustering look like flat lines when graphed. For example, a set of 20 price vectors at 5-s intervals will have 20 vectors with similar mean values, which do not diverge much from this mea value over the entire time interval. This makes sense because this averaging would give the lowest error margins between the k-means vector patterns and the set of all vector patterns, so the algorithm would choose for it. **
+**The current patterns chosen by the algorithm using clustering look like flat lines when graphed. For example, a set of 20 price vectors at 5-s intervals will have 20 vectors with similar mean values, which do not diverge much from this mea value over the entire time interval. This makes sense because this averaging would give the lowest error margins between the k-means vector patterns and the set of all vector patterns, so the algorithm would choose for it.**
 
 **As explained in the paper, the authors hand-selected 20 patterns and observed that their 'best' patterns were similar to those seen in trading textbooks i.e. the head and shoulders, the triangle. A flat line is not a good predictor of price changes.** 
 
