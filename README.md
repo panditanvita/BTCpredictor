@@ -2,7 +2,7 @@
 predicting bitcoin prices using bayesian regression techniques
 
 this project aims to implement the algorithm described in the 2014 MIT paper, Bayesian Regression and Bitcoin 
-by Devavrat Shah and Kang Zhang. The paper can be found under references/mit paper
+by Devavrat Shah and Kang Zhang. The paper is here -> https://arxiv.org/pdf/1410.1231v1.pdf
 
 The algorithm first attempts to identify patterns within historical price data using k-means clustering using one set of prices.
 It then uses the second set of prices to train weights for its predicted price function. This is where the Bayesian regression comes in - 
