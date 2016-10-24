@@ -25,7 +25,7 @@ the error of the current implementation.
 a certain Han Li emailed me a number of code improvements, including the use of Sample Entropy to choose effective patterns, and a Diffrential Evolution optimisation function (instead of the previous linear regression code), and several bug fixes
 the results are a lot more promising and make a very modest profit of about ~1% across three days trading on the historical data.
 
-![alt tag]('https://github.com/panditanvita/BTCpredictor/blob/master/buy-sell.png')
+[[https://github.com/panditanvita/BTCpredictor/blob/master/buy-sell.png|alt=buy-sell-graph]]
 
 I also realized matlab doesn't do garbage collection, and have thus added a lot more cleanup 
 
