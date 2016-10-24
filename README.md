@@ -25,7 +25,7 @@ the error of the current implementation.
 a certain Han Li emailed me a number of code improvements, including the use of Sample Entropy to choose effective patterns, and a Diffrential Evolution optimisation function (instead of the previous linear regression code), and several bug fixes
 the results are a lot more promising and make a very modest profit of about ~1% across three days trading on the historical data.
 
-![alt tag](https://gm1.ggpht.com/B7EFjkMV-U5erG-2lcSfIep7hmWvkeWUE6YRAoVvmpnXGrDhyuLsiCj4Q5LdzANlBEj1_QNcxSdHoecIe-Ulzp5v7GRz1UGYVZBzU2DIEH9INGolx7sJIOQh9qe_odZiMx4ydAxTU-mMnpvGDPgA68-QNap8QOMLRiWl6idfHTrqHxgqOWBiXiPhaSokGnjRdkj0B-sPqvJDai7pjt84Klpu9aHKFT5fM7uz7LCHv_jw68nvsFwPtl4-RN-i3Lwr89LVX51mwyh6S2rMO25z_2Cf_PMDY1e5U-vrxzChnOJddBvyOVeKwuA_M18DSoyzKsKa7G6IMVwD5zGggTJsfTPnqRm_v-TL-tBbCCZ1c_254MpdUcCvnoq3AQOjkLBSuzHGUlK-PK7soRyppYNB8DLdfh6-DfzWZy-6XWGvHH9N_nCuCtwdL_RjuZ_LGt-1vWI49ijyboN_85qEnZB_16Nv7Wm7gznaNUhECZO8skiGCQYrdguwB-a-bDpTTSIPc9dyM4wPSneDpBggH0h4GstHsfKEH1DGz6BJqaLBroelEvDfC0Wk5ixr4PNlbUeLucOoyaNZLsSuHtQPQPrrizIxX5uRe83cAeDnT3i6EHArrBve-bduFNpXHiO40oZwBFTTJJAoEJC_gMoiE80i8kVnoINV8yoDJVAue8RCf5df916-CN-1PDAb4iHYzzHSrDJw0BH0OhEukA=w944-h438-l75-ft)
+![alt tag]('buy-sell.png')
 
 I also realized matlab doesn't do garbage collection, and have thus added a lot more cleanup 
 
