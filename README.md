@@ -21,22 +21,16 @@ the error of the current implementation.
 -brtrade.m performs the final evaluation
 -vecsim.m calculates similarity between two vectors
 
-##What Next? 
-The code in its current state does not seem to be effective at its function. After speaking to one of the authors of the paper, I think I implemented what was described. The main item left would be to selectively choose 20 effective patterns from the 100 k-means clustered patterns - the current implementation goes straight to clustering 20 patterns.  It is possible to further tweak several constants, but I am still left at a loss as to how the paper acheived a Sharpe ratio of 4. 
+##Exciting News, Oct 24, 2016
+a certain Han Li emailed me a number of code improvements, including the use of Sample Entropy to choose effective patterns, and a Diffrential Evolution optimisation function (instead of the previous linear regression code), and several bug fixes
+the results are a lot more promising and make a very modest profit of about ~1% across three days trading on the historical data.
 
-##Edit Sep 10, 2015
-**Some things which I should have written up much earlier (sorry!).**
+![alt tag](https://gm1.ggpht.com/B7EFjkMV-U5erG-2lcSfIep7hmWvkeWUE6YRAoVvmpnXGrDhyuLsiCj4Q5LdzANlBEj1_QNcxSdHoecIe-Ulzp5v7GRz1UGYVZBzU2DIEH9INGolx7sJIOQh9qe_odZiMx4ydAxTU-mMnpvGDPgA68-QNap8QOMLRiWl6idfHTrqHxgqOWBiXiPhaSokGnjRdkj0B-sPqvJDai7pjt84Klpu9aHKFT5fM7uz7LCHv_jw68nvsFwPtl4-RN-i3Lwr89LVX51mwyh6S2rMO25z_2Cf_PMDY1e5U-vrxzChnOJddBvyOVeKwuA_M18DSoyzKsKa7G6IMVwD5zGggTJsfTPnqRm_v-TL-tBbCCZ1c_254MpdUcCvnoq3AQOjkLBSuzHGUlK-PK7soRyppYNB8DLdfh6-DfzWZy-6XWGvHH9N_nCuCtwdL_RjuZ_LGt-1vWI49ijyboN_85qEnZB_16Nv7Wm7gznaNUhECZO8skiGCQYrdguwB-a-bDpTTSIPc9dyM4wPSneDpBggH0h4GstHsfKEH1DGz6BJqaLBroelEvDfC0Wk5ixr4PNlbUeLucOoyaNZLsSuHtQPQPrrizIxX5uRe83cAeDnT3i6EHArrBve-bduFNpXHiO40oZwBFTTJJAoEJC_gMoiE80i8kVnoINV8yoDJVAue8RCf5df916-CN-1PDAb4iHYzzHSrDJw0BH0OhEukA=w944-h438-l75-ft)
 
-**A potential reason why the current implementation is ineffective:**
-
-**The current patterns chosen by the algorithm using clustering look like flat lines when graphed. For example, a set of 20 price vectors at 5-s intervals will have 20 vectors with similar mean values, which do not diverge much from this mea value over the entire time interval. This makes sense because this averaging would give the lowest error margins between the k-means vector patterns and the set of all vector patterns, so the algorithm would choose for it.**
-
-**As explained in the paper, the authors hand-selected 20 patterns and observed that their 'best' patterns were similar to those seen in trading textbooks i.e. the head and shoulders, the triangle. A flat line is not a good predictor of price changes.** 
-
-**Another important point is that the algorithm described in the paper has not been implemented in real time yet - the current version created by the authors, which reaches the purported Sharpe ratio, is not fast enough to use in the market. I believe the authors of the paper are currently working on this, and I've heard from a dozen other github users that they are as well. good luck! I personally have not put more work into this - the code given was my last attempt - but I'd be happy to answer any questions.**
+I also realized matlab doesn't do garbage collection, and have thus added a lot more cleanup 
 
 ##Attribution
-The train_regressor code was written by MIT 6.S03 staff, and the scraping of historical prices was done by Shaurya Saluja. 
+The scraping of historical prices was done by Shaurya Saluja. The DE algorithm is available at http://www1.icsi.berkeley.edu/~storn/code.html, and adding the DE and sample entropy was done by Han Li
 All other code was written by me (Anvita Pandit).
 If you find this useful, or want to discuss it further, I can be reached at pandit at mit dot edu
 If you use this, do attribute me.
