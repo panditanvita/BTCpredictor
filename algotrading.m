@@ -1,8 +1,9 @@
-%algo trading
+% algo trading
 clear all;
-%delete('reg.mat') % won't exist on first run
-%import pricese as column vectors from the csv sheet
-%about 120 000 values
+% delete('reg.mat') % won't exist on first run
+
+% import prices as column vectors from the csv sheet
+% about 120 000 values
 dataArray = csvread('okcoin5s.csv');
 prices = dataArray(:,2);
 askVolume = dataArray(:,3);
@@ -16,18 +17,19 @@ b = 20000;
 
 prices = prices(1:2:end); %turns 5s to 10s steps
 askVolume = askVolume(1:2:end);
-askVolume = askVolume(b+1:end);
 bidVolume = bidVolume(1:2:end);
+
+askVolume = askVolume(b+1:end);
 bidVolume = bidVolume(b+1:end);
 
 prices1 = prices(1:b); 
 prices2 = prices(b+1:b*2);
 prices3 = prices(b*2+1:end);
 %
-%step 1: creating intervals S_j
+% step 1: creating intervals S_j
 %
-%create list of all 720*10s, 360*10s and 180*10s intervals
-%each item is (interval of prices, NEXT TEN SEC interval price change)
+% create list of all 720*10s, 360*10s and 180*10s intervals
+% each item is (interval of prices, NEXT TEN SEC interval price change)
 
 priceDiff = diff(prices);
 clear prices
@@ -79,8 +81,9 @@ entropy720=zeros(clusters,1);
 for i = 1:clusters
  entropy180(i)=ys_sampEntropy(kmeans180s1(i,1:180));
  entropy360(i)=ys_sampEntropy(kmeans360s1(i,1:180));   
- entropy720(i)=ys_sampEntropy(kmeans720s1(i,1:180));  
+ entropy720(i)=ys_sampEntropy(kmeans720s1(i,1:180)); % looks wrong, but gets worse profits when corrected  
 end
+% sort by 20 most interesting, and save these
 [B,IX]=sort(entropy180,'descend');
 IX180=IX(1:20);
 [B,IX]=sort(entropy360,'descend');
@@ -125,12 +128,10 @@ end
 
 clear prices2
 
-%last parameter is regularization gamma, need to find a good value TODO
-% set up differential evolution optimization
-disp('finished regression, ready to trade');
+% Set up differential evolution optimization
+
 save('reg.mat','regressorX','regressorY');
 run Rundeopt;
-
 
 theta=zeros(4,1);
 theta0=0;
@@ -140,7 +141,8 @@ theta(3)=FVr_x(3);
 theta(4)=FVr_x(4);
 theta0=FVr_x(5);
 
-%start trading with last list of prices
+% Start trading with last list of prices
+disp('finished regression, ready to trade');
 tic
 [error,jinzhi,bank,buy,sell,proba] = brtrade(prices3, kmeans180s,kmeans360s, ...
     kmeans720s,theta,theta0,bidVolume(b+1:end),askVolume(b+1:end));

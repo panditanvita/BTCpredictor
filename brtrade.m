@@ -28,7 +28,7 @@ function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, kmeans180s,kmeans3
     counttotal=0;
     countz=0;
     temp=0;
-    for t = 750:length(prices)-1    
+    for t = 720:length(prices)-1    
         price180 = zscore(prices(t-179:t));      
         price360 = zscore(prices(t-359:t));      
         price720 = zscore(prices(t-719:t));
@@ -40,8 +40,9 @@ function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, kmeans180s,kmeans3
 
         r = (bidVolume(t)-askVolume(t))/(bidVolume(t)+askVolume(t));
         
-        dp = theta0 +  theta(1)*dp1 + theta(2)*dp2 + theta(3)*dp3 + theta(4)*r;
+        dp = theta0 +  theta(1)*dp1 + theta(2)*dp2 + theta(3)*dp3;% + theta(4)*r;
         
+        % compare price at t+1 with predicted price jump
         error = error + abs(prices(t+1)-prices(t)-dp);
         %BUY
         if (dp > threshold && position == 0)
