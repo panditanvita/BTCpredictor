@@ -4,7 +4,7 @@
 %using our third set of prices, we estimate dp at each time interval,
 %if dp > t and current position <= 0 , we buy
 %if dp < -t and current position >= 0, we sell
-%else, do nothing
+%else, do:nothing
 %
 
 %trade using the above algorithm. returns expected profit

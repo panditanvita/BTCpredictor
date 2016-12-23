@@ -1,6 +1,6 @@
 % algo trading
 clear all;
-% delete('reg.mat') % won't exist on first run
+delete('reg.mat') % won't exist on first run
 
 % import prices as column vectors from the csv sheet
 % about 120 000 values
@@ -33,7 +33,7 @@ prices3 = prices(b*2+1:end);
 
 priceDiff = diff(prices);
 clear prices
-validIntSize = length(prices1)-720 -1; %valid interval size
+validIntSize = length(prices1)-750; %valid interval size
 interval720s = zeros(validIntSize,720+1);
 interval360s = zeros(validIntSize,360+1);
 interval180s = zeros(validIntSize,180+1); 
@@ -84,10 +84,9 @@ entropy360=zeros(clusters,1);
 entropy720=zeros(clusters,1);
 for i = 1:clusters
 	entropy180(i)=ys_sampEntropy(kmeans180s1(i,1:180));
-	entropy360(i)=ys_sampEntropy(kmeans360s1(i,1:360));   
-	entropy720(i)=ys_sampEntropy(kmeans720s1(i,1:720)); 
-	% TODO indexing 1:180 for all three is wrong, but oddly gets 3.8% profits  
-	 % need to figure out why
+	entropy360(i)=ys_sampEntropy(kmeans360s1(i,1:180));   
+	entropy720(i)=ys_sampEntropy(kmeans720s1(i,1:180)); 
+	% TODO indexing 1:180 for all three is wrong, but gets 3.8% profits  
 end
 % sort by 20 most interesting, and save these
 [B,IX]=sort(entropy180,'descend');
@@ -113,10 +112,10 @@ clear kmeans720s1;
 %dp = w0 + w1*dp1 + w2*dp2 + w3*dp3 + w4*r
 %
 numFeatures = 3;
-numPoints = length(prices2) - 1 - 720;
+numPoints = length(prices2) - 730;
 regressorX = zeros(numPoints, numFeatures);
 regressorY = zeros(1, numPoints);
-start = 720;
+start = 730;
 for i= start:length(prices2)-1
     price180 = zscore(prices2(i-179:i));      
     price360 = zscore(prices2(i-359:i));      
@@ -157,6 +156,7 @@ theta0 = FVr_x(k+1);
 % Start trading with last list of prices
 disp('finished regression, ready to trade');
 
+fprintf('check %d %d \n', length(prices3), length(bidVolume(b+1:end)));
 assert(isequal(length(prices3), length(bidVolume(b+1:end))));
 tic
 [error,jinzhi,bank,buy,sell,proba] = brtrade(prices3, kmeans180s,kmeans360s, ...

@@ -21,10 +21,6 @@ theta=zeros(y(2) ,1);
 for i=1:y(2)
     theta(i)=FVr_temp(i);
 end
-%    theta(1)=FVr_temp(1);
-%    theta(2)=FVr_temp(2);
-%    theta(3)=FVr_temp(3);
-%    theta(4)=FVr_temp(4);
 theta0=FVr_temp(y(2)+1);
 F_cost=norm((regressorY' - (regressorX*theta + theta0)));
 
