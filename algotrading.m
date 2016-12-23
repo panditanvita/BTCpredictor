@@ -33,7 +33,7 @@ prices3 = prices(b*2+1:end);
 
 priceDiff = diff(prices);
 clear prices
-validIntSize = length(prices1)-750; %valid interval size
+validIntSize = length(prices1)-720 -1; %valid interval size
 interval720s = zeros(validIntSize,720+1);
 interval360s = zeros(validIntSize,360+1);
 interval180s = zeros(validIntSize,180+1); 
@@ -65,13 +65,17 @@ tic
 toc
 %delete(pool)
 
+clear interval180s
+clear interval360s
+clear interval720s
 % consider: for speed, use similarity instead of L2 norm for kmeans?
 
 % regularize so the mean = 0 and std =1
+% don't regularize the price jump (at the last index)
 for i = 1:clusters
-kmeans180s1(i,1:180) = zscore(kmeans180s1(i,1:180));
-kmeans360s1(i,1:360) = zscore(kmeans360s1(i,1:360));
-kmeans720s1(i,1:720) = zscore(kmeans720s1(i,1:720));
+	kmeans180s1(i,1:180) = zscore(kmeans180s1(i,1:180));
+	kmeans360s1(i,1:360) = zscore(kmeans360s1(i,1:360));
+	kmeans720s1(i,1:720) = zscore(kmeans720s1(i,1:720));
 end
 
 % use sample entropy to choose interesting/effective patterns 
@@ -79,9 +83,11 @@ entropy180=zeros(clusters,1);
 entropy360=zeros(clusters,1);
 entropy720=zeros(clusters,1);
 for i = 1:clusters
- entropy180(i)=ys_sampEntropy(kmeans180s1(i,1:180));
- entropy360(i)=ys_sampEntropy(kmeans360s1(i,1:180));   
- entropy720(i)=ys_sampEntropy(kmeans720s1(i,1:180)); % looks wrong, but gets worse profits when corrected  
+	entropy180(i)=ys_sampEntropy(kmeans180s1(i,1:180));
+	entropy360(i)=ys_sampEntropy(kmeans360s1(i,1:360));   
+	entropy720(i)=ys_sampEntropy(kmeans720s1(i,1:720)); 
+	% TODO indexing 1:180 for all three is wrong, but oddly gets 3.8% profits  
+	 % need to figure out why
 end
 % sort by 20 most interesting, and save these
 [B,IX]=sort(entropy180,'descend');
@@ -106,24 +112,32 @@ clear kmeans720s1;
 %equation:
 %dp = w0 + w1*dp1 + w2*dp2 + w3*dp3 + w4*r
 %
-
-regressorX = zeros(length(prices2)-750-1,4);
-regressorY = zeros(1,length(prices2)-750-1);
-
-for i= 750:length(prices2)-1
+numFeatures = 3;
+numPoints = length(prices2) - 1 - 720;
+regressorX = zeros(numPoints, numFeatures);
+regressorY = zeros(1, numPoints);
+start = 720;
+for i= start:length(prices2)-1
     price180 = zscore(prices2(i-179:i));      
     price360 = zscore(prices2(i-359:i));      
     price720 = zscore(prices2(i-719:i));
+    assert(isequal(length(price180), 180));
+    assert(isequal(length(price360), 360));
+    assert(isequal(length(price720), 720));
     
     %average price change dp_j is given by bayesian regression    
     dp1 = bayesian(price180, kmeans180s);
     dp2 = bayesian(price360, kmeans360s); 
     dp3 = bayesian(price720, kmeans720s);
     
-    r = (bidVolume(i)-askVolume(i))/(bidVolume(i)+askVolume(i)); 
+	% not using r currently
+    % to use r: uncomment in these two lines, and edit brtrade.m 
+    % r = (bidVolume(i)-askVolume(i))/(bidVolume(i)+askVolume(i)); 
     
-    regressorX(i-749,:) = [dp1,dp2,dp3,r];
-    regressorY(i-749) = prices2(i+1)-prices2(i);   
+	% create data for regression method
+    regressorX(i-start+1,:) = [dp1,dp2,dp3]; %,r];
+    regressorY(i-start+1) = prices2(i+1)-prices2(i);   
+
 end
 
 clear prices2
@@ -133,16 +147,17 @@ clear prices2
 save('reg.mat','regressorX','regressorY');
 run Rundeopt;
 
-theta=zeros(4,1);
-theta0=0;
-theta(1)=FVr_x(1);
-theta(2)=FVr_x(2);
-theta(3)=FVr_x(3);
-theta(4)=FVr_x(4);
-theta0=FVr_x(5);
+% retrieve weights 
+theta = zeros(numFeatures, 1);
+for k=1:numFeatures
+  theta(k) = FVr_x(k);
+end
+theta0 = FVr_x(k+1);
 
 % Start trading with last list of prices
 disp('finished regression, ready to trade');
+
+assert(isequal(length(prices3), length(bidVolume(b+1:end))));
 tic
 [error,jinzhi,bank,buy,sell,proba] = brtrade(prices3, kmeans180s,kmeans360s, ...
     kmeans720s,theta,theta0,bidVolume(b+1:end),askVolume(b+1:end));

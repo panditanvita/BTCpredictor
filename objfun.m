@@ -14,18 +14,19 @@
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function S_MSE= objfun(FVr_temp, S_struct)
 load reg
-theta=zeros(4,1);
-theta(1)=FVr_temp(1);
-theta(2)=FVr_temp(2);
-theta(3)=FVr_temp(3);
-theta(4)=FVr_temp(4);
-theta0=FVr_temp(5);
+y = size(regressorX);
+% y(2) is the number of features
+theta=zeros(y(2) ,1);
+
+for i=1:y(2)
+    theta(i)=FVr_temp(i);
+end
+%    theta(1)=FVr_temp(1);
+%    theta(2)=FVr_temp(2);
+%    theta(3)=FVr_temp(3);
+%    theta(4)=FVr_temp(4);
+theta0=FVr_temp(y(2)+1);
 F_cost=norm((regressorY' - (regressorX*theta + theta0)));
-
-
-
-
-
 
 
 % 

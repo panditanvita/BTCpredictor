@@ -56,7 +56,7 @@ clc;
 % I_refresh     intermediate output will be produced after "I_refresh"
 %               iterations. No intermediate output will be produced
 %               if I_refresh is < 1
-      I_refresh = 1; 
+      I_refresh = 0; 
       
 % I_plotting    Will use plotting if set to 1. Will skip plotting otherwise.
       I_plotting = 0;
