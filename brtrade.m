@@ -16,7 +16,11 @@
 % bank is the amount of cash we have
 % threshold is the threshold for buying/selling
 % defined in the paper
-function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, kmeans180s,kmeans360s,kmeans720s,theta,theta0,bidVolume,askVolume)
+function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, bidVolume,askVolume, fee)
+    assert(exist('thetas.mat','file')==2)
+    load('thetas.mat');
+    assert(isequal(length(prices), length(bidVolume)));
+    assert(isequal(length(prices), length(askVolume)));
     threshold = 0.001;
     threshold2 = 0.003;
     position = 0;
@@ -46,6 +50,9 @@ function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, kmeans180s,kmeans3
         
         % compare price at t+1 with predicted price jump
         error = error + abs(prices(t+1)-prices(t)-dp);
+        
+        % calculate transaction fee
+        
         %BUY
         if (dp > threshold && position == 0)
             position = 1;
@@ -68,7 +75,8 @@ function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, kmeans180s,kmeans3
         jinzhi(t) = bank;
     end
     
-    % close at the end
+    % forces us to close the position at the end
+    % tradeoffs to this decision
     if (position == 1)
         bank = bank + prices(t)-temp;
         disp('selling');

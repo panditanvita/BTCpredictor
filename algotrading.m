@@ -115,10 +115,10 @@ clear kmeans720s1;
 %dp = w0 + w1*dp1 + w2*dp2 + w3*dp3 + w4*r
 %
 numFeatures = 3;
-numPoints = length(prices2) - 730;
 regressorX = zeros(numPoints, numFeatures);
 regressorY = zeros(1, numPoints);
 start = 730;
+numPoints = length(prices2) - start;
 for i= start:length(prices2)-1
     price180 = zscore(prices2(i-179:i));      
     price360 = zscore(prices2(i-359:i));      
@@ -145,7 +145,6 @@ end
 clear prices2
 
 % Set up differential evolution optimization
-
 save('reg.mat','regressorX','regressorY');
 run Rundeopt;
 
@@ -161,12 +160,7 @@ save('thetas.mat', 'theta','theta0','kmeans180s','kmeans360s','kmeans720s')
 
 % Start trading with last list of prices
 disp('Finished regression, ready to trade');
-
-assert(isequal(length(prices3), length(bidVolume(b+1:end))));
-tic
-[error,jinzhi,bank,buy,sell,proba] = brtrade(prices3, kmeans180s,kmeans360s, ...
-    kmeans720s,theta,theta0,bidVolume(b+1:end),askVolume(b+1:end));
-toc
+[error,jinzhi,bank,buy,sell,proba] = brtrade(prices3, bidVolume(b+1:end),askVolume(b+1:end), 1);
 
 % set up plots
 make_plots(prices3, buy, sell, proba, bank, error);
