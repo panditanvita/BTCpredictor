@@ -9,7 +9,7 @@ sbuy(buy) = prices(buy);
 ssell(sell) = prices(sell);
 fprintf('Error of prediction, on average: %d\n', error/n);
 fprintf('Win rate: %d percent\nTotal profit: $%d \n', proba, bank);
-
+fprintf('Percent profit(approx): %d\n', bank*100/prices(end))
 % create plots of buy/sell points
 % note: cannot plot when running on -nojvm flag
 plot(1:n,prices,'blue');

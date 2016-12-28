@@ -30,7 +30,7 @@ prices3 = prices(b*2+1:end);
 % create list of all 720*10s, 360*10s and 180*10s intervals
 % each item is (interval of prices, NEXT TEN SEC interval price change)
 
-intJump = 15; % separate consecutive intervals from each other slightly 
+intJump = 1; % idea: separate consecutive intervals from each other slightly 
 priceDiff = diff(prices);
 clear prices
 validIntSize = length(prices1)-750; %valid interval size
@@ -50,12 +50,13 @@ clear priceDiff
 %for each of the interval lists 
 
 clusters = 100;
-% parpool doesn't work for me locally
-% to use, uncomment the two lines and change UseParallel option to 1
+% parpool 
+% if it doesn't work for you, 
+% uncomment the two lines and change UseParallel option to 0
 
-%pool = parpool;                      % Invokes workers
+pool = parpool;                      % Invokes workers
 stream = RandStream('mlfg6331_64');  % Random number stream
-options = statset('UseParallel',0,'UseSubstreams',1,...
+options = statset('UseParallel',1,'UseSubstreams',1,...
     'Streams',stream);
 disp('starting clustering');
 tic
@@ -63,7 +64,7 @@ tic
 [ID360,kmeans360s1] = kmeans(interval360s,clusters,'Options',options,'MaxIter',10000,'Display','final','Replicates',4);
 [ID720,kmeans720s1] = kmeans(interval720s,clusters,'Options',options,'MaxIter',10000,'Display','final','Replicates',4);
 toc
-%delete(pool)
+delete(pool)
 
 clear interval180s
 clear interval360s
@@ -86,9 +87,11 @@ for i = 1:clusters
 	entropy180(i)=ys_sampEntropy(kmeans180s1(i,1:180));
 	entropy360(i)=ys_sampEntropy(kmeans360s1(i,1:180));   
 	entropy720(i)=ys_sampEntropy(kmeans720s1(i,1:180)); 
-	% TODO indexing 1:180 for all three is wrong, but gets 3.8% profits  
+	% TODO indexing 1:180 for all three is wrong, but gets 3.8% profits
+    % and indexing properly gets less...??
 end
 % sort by 20 most interesting, and save these
+% first pattern for 360s  is the flat pattern/ all 0s
 [~,IX]=sort(entropy180,'descend');
 IX180=IX(1:20);
 [~,IX]=sort(entropy360,'descend');
@@ -101,7 +104,7 @@ kmeans720s=kmeans720s1(IX720,:);
 
 disp('finished clustering and normalizing');
 clear kmeans180s1;
-clear kmeans360s1;
+%clear kmeans360s1;
 clear kmeans720s1;
 
 %
