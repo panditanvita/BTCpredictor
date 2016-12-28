@@ -15,36 +15,36 @@ The third set of prices is used to evaluate the algorithm, by running the same b
 
 ##How to use it: 
 All the relevant code is in MATLAB. I'm using version 2016b. The BTC price data is available as two csvs of okcoin or coinbase data at 5s intervals. The okcoin data also comes with bid volume and ask volume (number of bitcoins bidded/asked at time t).
-Run algotrading.m in matlab, which will carry out all three steps above and return, among other things, the points in time in which it decides to buy and sell, the final profit, the win rate, and the error.
 
-bayesian.m performs the bayesian regression
+- Run algotrading.m in matlab, which will carry out all three steps above and return, among other things, the points in time in which it decides to buy and sell, the final profit, the win rate, and the error.
+- bayesian.m performs the bayesian regression (calculation of dp_i's)
+- brtrade.m evaluates the weights using test data
 
-brtrade.m performs the final evaluation
+The code is set up to make it easy to test your own csv data using test.m, after you've calculated the weights
 
-##Status December 23, 2016
-Over the three days, profit is around 1.1% and the win rate (percentage of the time that it successfully predicted the direction of the price jump) is ~88.89%. I am experimenting with adding transaction fees and taking spread into account.
+##Status December 28, 2016
+Over the three days, profit is around 1.1% and the win rate (percentage of the time that it successfully predicted the direction of the price jump) is ~80%. I am experimenting with adding transaction fees and taking spread into account.
 
 ![buy-sell graph](buy-sell.png)
-Graph of BTC price over time for the three days of test data. Green dots are points in time when the algorithm decides to sell, Red is when it decides to buy. the win rate is ~70% 
-
+Graph of BTC price over time for the three days of test data. Green dots are points in time when the algorithm decides to sell, Red is when it decides to buy. 
 
 ![prices3 plotted with bid and ask volume](prices3_bidvolume.yellow_askvolume.red.jpg)
-Plotted over the last day. 
+Price of bitcoin, with bid volume overlaid in yellow and ask volume overlaid in red. Plotted over one day 
 
-
-![twenty_patterns](twenty_patterns_length_360.jpg)
+![twenty_patterns](20_patterns_length_360.jpg)
 A visualisation of the 20 'effective patterns' of length 360, created by clustering and applying sample entrepy over the historical data
 
 Differences from the original paper:
 - The code is not using r right now (from bid and ask volume data). 
-- The trading structure has been simplified, so the algorithm is no longer capable of shorting bitcoin. There is now an option to use Matlab's parpool command to parallelize the kmeans clustering. 
+- The trading structure has been simplified, so the algorithm is no longer capable of shorting bitcoin. 
+
 
 ## What Next
 At this point the code is just a few functions away from calling the okcoin database in realtime to update historical price knowledge and running live trading decisions. However it should be trained/tested with a much larger dataset first (the authors in the paper were working over a timescale of several months) to see if this result scales. If I pursue that and get interesting results I will let you all know. 
 
 
 ##Attribution
-The scraping of historical prices was done by Shaurya Saluja. The DE algorithm is available at http://www1.icsi.berkeley.edu/~storn/code.html. Major improvements were done by Han Li in coming up with the idea to add, and implementing the DE and sample entropy code. The buy-sell graph was created by Han Li.
+The scraping of historical prices was done by Shaurya Saluja. The DE algorithm is available at http://www1.icsi.berkeley.edu/~storn/code.html. Major improvements were done by Han Li in adapting the DE and sample entropy code. 
 All other code was written by me (Anvita Pandit).
 If you find this useful, or want to discuss it further, I can be reached at pandit at mit dot edu
 If you use this, do attribute me.
