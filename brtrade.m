@@ -21,19 +21,17 @@ function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, bidVolume,askVolum
     load('thetas.mat');
     assert(isequal(length(prices), length(bidVolume)));
     assert(isequal(length(prices), length(askVolume)));
-    threshold = 0.001;
-    threshold2 = 0.003;
     position = 0;
     bank = 0;
     jinzhi = zeros(length(prices)-750, 1);
     error = 0; 
     %current error metric is sum(abs(error))/time interval = ~.9
     %current error = 0.06
-    buy=[];
-    sell=[];
-    counttotal=0;
-    countz=0;
-    temp=0;
+    buy = [];
+    sell = [];
+    counttotal = 0;
+    counts = 0;
+    temp = 0;
     for t = 720:length(prices)-1  
         price180 = zscore(prices(t-179:t));      
         price360 = zscore(prices(t-359:t));      
@@ -51,24 +49,35 @@ function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, bidVolume,askVolum
         % compare price at t+1 with predicted price jump
         error = error + abs(prices(t+1)-prices(t)-dp);
         
-        % calculate transaction fee
-        
+        % calculate transaction fee??
+        % threshold 1 and 2 before...but 
+        % there is definitely not going to be a 
+        % 5-8$ price jump predicted in the next ten seconds
+        % need to consider TODO
+		fee = 0;
+		if (fee == 0)
+            tfee_buy = 0.001;
+            tfee_sell = 0.003;
+        else
+            tfee_buy = fee*prices(2)/100;
+            tfee_sell = tfee_buy;
+        end
         %BUY
-        if (dp > threshold && position == 0)
+        if (dp > tfee_buy && position == 0)
             position = 1;
             temp = prices(t);
-            disp('buying');
+            fprintf('Buying at %d\n', temp);
             buy = [buy;t];
         end 
         %SELL
-        if (dp < -threshold2 && position== 1)
+        if (dp < -tfee_sell && position == 1)
             position = 0;
             bank = bank + prices(t)-temp;
-            disp('selling');
-            sell=[sell;t];
-            counttotal=counttotal+1;
+            fprintf('Selling at %d\n', prices(t));
+            sell = [sell;t];
+            counttotal = counttotal+1;
             if prices(t)-temp>0
-                countz=countz+1;
+                counts = counts+1;
             end
         end
 
@@ -77,14 +86,16 @@ function [error,jinzhi,bank,buy,sell,proba] = brtrade(prices, bidVolume,askVolum
     
     % forces us to close the position at the end
     % tradeoffs to this decision
+    % on one side: more realistic
+    % but the algorithm doesn't yet account for it
     if (position == 1)
         bank = bank + prices(t)-temp;
-        disp('selling');
-        sell=[sell;t];
-        counttotal=counttotal+1;
+        fprintf('Final sale at %d\n', prices(t));
+        sell = [sell;t];
+        counttotal = counttotal+1;
         if prices(t)-temp>0
-            countz=countz+1;
+            counts = counts+1;
         end
     end
-    proba = (countz./counttotal)*100;
+    proba = (counts./counttotal)*100;
     end
