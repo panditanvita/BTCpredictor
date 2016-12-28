@@ -22,7 +22,7 @@ bayesian.m performs the bayesian regression
 brtrade.m performs the final evaluation
 
 ##Status December 23, 2016
-Over the three days, profit is around 4.08% and the win rate (percentage of the time that it successfully predicted the direction of the price jump) is ~88.89%. I am experimenting with adding transaction fees and taking spread into account.
+Over the three days, profit is around 1.1% and the win rate (percentage of the time that it successfully predicted the direction of the price jump) is ~88.89%. I am experimenting with adding transaction fees and taking spread into account.
 
 ![buy-sell graph](buy-sell.png)
 Graph of BTC price over time for the three days of test data. Green dots are points in time when the algorithm decides to sell, Red is when it decides to buy. the win rate is ~70% (note: the graph is a few commits old)

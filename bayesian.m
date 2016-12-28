@@ -10,7 +10,7 @@
 %defined in the paper
 function dpj = bayesian(x, S)
     %based on the length of x, we choose S_j
-    dpj = 1;
+    dpj = 0;
     c = -1/4; %TODO choose a better c, should it be negative or not??
     %compare x with the it in S using our similarity measure
     %and return the conditional expectation, which is dp

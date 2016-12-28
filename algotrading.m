@@ -1,5 +1,4 @@
 % algo trading
-clear all;
 delete('reg.mat') % won't exist on first run
 
 % import prices as column vectors from the csv sheet
@@ -31,6 +30,7 @@ prices3 = prices(b*2+1:end);
 % create list of all 720*10s, 360*10s and 180*10s intervals
 % each item is (interval of prices, NEXT TEN SEC interval price change)
 
+intJump = 15; % separate consecutive intervals from each other slightly 
 priceDiff = diff(prices);
 clear prices
 validIntSize = length(prices1)-750; %valid interval size
@@ -38,7 +38,7 @@ interval720s = zeros(validIntSize,720+1);
 interval360s = zeros(validIntSize,360+1);
 interval180s = zeros(validIntSize,180+1); 
 
-for i = 1:validIntSize   
+for i = 1:intJump:validIntSize   
     interval180s(i,:) = [prices1(i:i+179),priceDiff(i+179)]; 
     interval360s(i,:) = [prices1(i:i+359),priceDiff(i+359)]; 
     interval720s(i,:) = [prices1(i:i+719),priceDiff(i+719)];   
@@ -89,11 +89,11 @@ for i = 1:clusters
 	% TODO indexing 1:180 for all three is wrong, but gets 3.8% profits  
 end
 % sort by 20 most interesting, and save these
-[B,IX]=sort(entropy180,'descend');
+[~,IX]=sort(entropy180,'descend');
 IX180=IX(1:20);
-[B,IX]=sort(entropy360,'descend');
+[~,IX]=sort(entropy360,'descend');
 IX360=IX(1:20);
-[B,IX]=sort(entropy720,'descend');
+[~,IX]=sort(entropy720,'descend');
 IX720=IX(1:20);
 kmeans180s=kmeans180s1(IX180,:);
 kmeans360s=kmeans360s1(IX360,:);
@@ -153,10 +153,12 @@ for k=1:numFeatures
 end
 theta0 = FVr_x(k+1);
 
-% Start trading with last list of prices
-disp('finished regression, ready to trade');
+% need this to test
+save('thetas.mat', 'theta','theta0','kmeans180s','kmeans360s','kmeans720s')
 
-fprintf('check %d %d \n', length(prices3), length(bidVolume(b+1:end)));
+% Start trading with last list of prices
+disp('Finished regression, ready to trade');
+
 assert(isequal(length(prices3), length(bidVolume(b+1:end))));
 tic
 [error,jinzhi,bank,buy,sell,proba] = brtrade(prices3, kmeans180s,kmeans360s, ...
@@ -164,17 +166,4 @@ tic
 toc
 
 % set up plots
-n = length(prices3);
-sbuy = nan(n,1);
-ssell = nan(n,2);
-sbuy(buy) = prices3(buy);
-ssell(sell) = prices3(sell);
-fprintf('Win rate: %d percent\nTotal profit: %d\n', proba, bank);
-
-% create plots of buy/sell points
-% note: cannot plot when running on -nojvm flag
-plot(1:n,prices3,'blue');
-hold on
-plot(1:n,sbuy,'.red' ,'MarkerSize',20);
-hold on
-plot(1:n,ssell,'.green' ,'MarkerSize',20);
+make_plots(prices3, buy, sell, proba, bank, error);
