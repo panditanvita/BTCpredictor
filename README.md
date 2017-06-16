@@ -1,5 +1,9 @@
 # btcpredictor
+
 predicting bitcoin prices using bayesian regression techniques
+
+## Update June 15th 2017
+I've spoken to a few people who are running servers to collect price data over time, and several them have had their servers crash from running out of memory. If you're doing something similar, either make sure you buy enough memory, or save the data regularly to persistant storage.
 
 this project aims to implement the algorithm described in the 2014 MIT paper, Bayesian Regression and Bitcoin 
 by Devavrat Shah and Kang Zhang. The paper is here -> https://arxiv.org/pdf/1410.1231v1.pdf
