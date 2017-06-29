@@ -17,7 +17,7 @@ It then uses the second set of prices to calculate the corresponding weights of 
 
 The third set of prices is used to evaluate the algorithm, by running the same bayesian regression to evaluate features, and combining those with the weights calculated in step 2. 
 
-##How to use it: 
+## How to use it: 
 All the relevant code is in MATLAB. I'm using version 2016b. The BTC price data is available as two csvs of okcoin or coinbase data at 5s intervals. The okcoin data also comes with bid volume and ask volume (number of bitcoins bidded/asked at time t).
 
 - Run algotrading.m in matlab, which will carry out all three steps above and return, among other things, the points in time in which it decides to buy and sell, the final profit, the win rate, and the error.
@@ -26,7 +26,7 @@ All the relevant code is in MATLAB. I'm using version 2016b. The BTC price data 
 
 The code is set up to make it easy to test your own csv data using test.m, after you've calculated the weights
 
-##Status December 28, 2016
+## Status December 28, 2016
 Over the three days, profit is around 1.1% and the win rate (percentage of the time that it successfully predicted the direction of the price jump) is ~80%. I am experimenting with adding transaction fees and taking spread into account.
 
 ![buy-sell graph](buy-sell.png)
@@ -47,7 +47,7 @@ Differences from the original paper:
 At this point the code is just a few functions away from calling the okcoin database in realtime to update historical price knowledge and running live trading decisions. However it should be trained/tested with a much larger dataset first (the authors in the paper were working over a timescale of several months) to see if this result scales. If I pursue that and get interesting results I will let you all know. 
 
 
-##Attribution
+## Attribution
 The scraping of historical prices was done by Shaurya Saluja. The DE algorithm is available at http://www1.icsi.berkeley.edu/~storn/code.html. Major improvements were done by Han Li in adapting the DE and sample entropy code. 
 All other code was written by me (Anvita Pandit).
 If you find this useful, or want to discuss it further, I can be reached at pandit at mit dot edu
