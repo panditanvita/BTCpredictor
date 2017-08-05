@@ -115,10 +115,10 @@ clear kmeans720s1;
 %dp = w0 + w1*dp1 + w2*dp2 + w3*dp3 + w4*r
 %
 numFeatures = 3;
-regressorX = zeros(numPoints, numFeatures);
-regressorY = zeros(1, numPoints);
 start = 730;
 numPoints = length(prices2) - start;
+regressorX = zeros(numPoints, numFeatures);
+regressorY = zeros(1, numPoints);
 for i= start:length(prices2)-1
     price180 = zscore(prices2(i-179:i));      
     price360 = zscore(prices2(i-359:i));      
