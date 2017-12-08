@@ -51,7 +51,9 @@ At this point the code is just a few functions away from calling the okcoin data
 The scraping of historical prices was done by Shaurya Saluja. The DE algorithm is available at http://www1.icsi.berkeley.edu/~storn/code.html. Major improvements were done by Han Li in adapting the DE and sample entropy code. 
 All other code was written by me (Anvita Pandit).
 If you find this useful, or want to discuss it further, I can be reached at pandit at mit dot edu
-If you use this, do attribute me. Even better, donate BTC: 1AnRMCxMZcp1x6H8Q78hZwTrYBj9Tw2zBo
+If you use this, do attribute me. 
+
+Even better, donate BTC: 1AnRMCxMZcp1x6H8Q78hZwTrYBj9Tw2zBo
 
 The csv files are available at https://bitbucket.org/anvitapandit/btcpredictor (too large for my github)
 
