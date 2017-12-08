@@ -1,8 +1,5 @@
-### Update December 7th 2017
+### Update December 7th 2017: **NEW FAQ under Wiki/ **
 Price prediction right now from historical data is going to be very tricky, because no historical bitcoin data set will match current market behaviour. Consider HODLing. 
-
-### Update June 15th 2017
-I've spoken to a few people who are running servers to collect price data over time, and several them have had their servers crash from running out of memory. If you're doing something similar, either make sure you buy enough memory, or save the data regularly to persistant storage.
 
 # btcpredictor
 
